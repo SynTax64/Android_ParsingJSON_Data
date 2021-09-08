@@ -22,6 +22,7 @@ public class MainActivity extends AppCompatActivity {
 
     String url = "https://jsonplaceholder.typicode.com/todos";
     String getApiurl = "https://jsonplaceholder.typicode.com/todos/1";
+    //    RequestQueue queue;
     RequestQueue queue;
 
     @Override
@@ -29,16 +30,17 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        queue = Volley.newRequestQueue(this);
+//        queue = Volley.newRequestQueue(this);
 //        JsonArrayRequest jsonArrayRequest = getJsonArrayRequest();
 //        queue.add(jsonArrayRequest);
+        queue = MySingleton.getInstance(this.getApplicationContext()).getRequestQueue();
 
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET,
                 getApiurl, null, response -> {
             try {
-                Log.d("jsonObj", "onCreate: \n" + response.getInt("userId") + "\n"
-                        + response.getInt("id") + "\n"
-                        + response.getString("title") + "\n"
+                Log.d("jsonObj", "onCreate: " + response.getInt("userId") + ", "
+                        + response.getInt("id") + ", "
+                        + response.getString("title") + ", "
                         + response.getBoolean("completed") + "\n");
 
             } catch (JSONException e) {
@@ -49,6 +51,8 @@ public class MainActivity extends AppCompatActivity {
         });
 
 //        getString(queue);
+
+//        queue.add(jsonObjectRequest);
 
         queue.add(jsonObjectRequest);
     }
